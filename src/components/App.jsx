@@ -21,7 +21,6 @@ export const App = () => {
   const [modalImg, setModalImg] = useState(null);
   const [loadeMore, setLoadeMore] = useState(false);
   const [page, setPage] = useState(1);
-  const [totalResult, setTotalResult] = useState(0);
 
   const showModal = img => {
     setModalImg(img);
@@ -44,7 +43,16 @@ export const App = () => {
     }
   };
 
-  const handleRequest = () => {
+  const hendleLoadeMore = () => {
+    setPage(prevState => prevState + 1);
+  };
+
+  useEffect(() => {
+  
+    if (search === '') {
+      return;
+    }
+    setLoading(true);
     fetch(
       `${URL}?q=${search}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}`
     )
@@ -61,8 +69,7 @@ export const App = () => {
         } else {
           setItems(prevState => [...prevState, ...items.hits]);
           setLoadeMore(true);
-          setTotalResult(items.total);
-          if (items.hits.length < 12 || totalResult / page === PER_PAGE) {
+          if (items.hits.length < 12 || items.total / page === PER_PAGE) {
             setLoadeMore(false);
           }
         }
@@ -70,21 +77,6 @@ export const App = () => {
       .finally(() => {
         setLoading(false);
       });
-  };
-
-  const hendleLoadeMore = () => {
-    setPage(prevState => prevState + 1);
-  };
-
-  useEffect(() => {
-    if (search === '') {
-      return;
-    }
-    setLoading(true);
-    handleRequest();
-    if (totalResult / page === PER_PAGE) {
-      setLoadeMore(false);
-    }
   }, [search, page]);
 
   return (
