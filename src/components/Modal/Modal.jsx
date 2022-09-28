@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 const modalRoot = document.querySelector('#modal-root');
 
 export const Modal = ({ onClose, children }) => {
-  const [modal, setModal] = useState(modalRoot);
+  const [modal, _] = useState(modalRoot);
   useEffect(() => {
     console.log('modal open');
     window.addEventListener('keydown', handleDownInEscape);
