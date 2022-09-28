@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { ModalOverlay, ModalSection } from './Modal.styled';
 import { createPortal } from 'react-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -19,7 +19,7 @@ export const Modal = ({ onClose, children }) => {
     return () => {
       return window.removeEventListener('keydown', handleDownInEscape);
     };
-  }, []);
+  });
 
   const handleDown = e => {
     if (e.currentTarget === e.target) {
